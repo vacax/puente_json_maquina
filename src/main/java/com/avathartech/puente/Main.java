@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         if(args.length >= 1){
             host = args[0];
-            System.out.println("Cambiando la URL: "+host);
+            System.out.println("Cambiando la URL =  "+host);
         }
         new Thread(new Runnable() {
             @Override
@@ -47,7 +47,7 @@ public class Main {
 
     private static void servidorKeepAlive() throws Exception {
         try (ServerSocket server = new ServerSocket(9900)) {
-            System.out.println("Subiendo el servidor KeepAlive:");
+            System.out.println("Subiendo el servidor KeepAlive puerto: "+ server.getLocalPort());
             while (true) {
                 final Socket accept = server.accept();
                 System.out.println("Cliente: "+ accept.getInetAddress().getHostAddress());
@@ -73,7 +73,7 @@ public class Main {
 
     private static void  servidorEntradaDinero() throws Exception {
         try (ServerSocket server = new ServerSocket(9901)) {
-            System.out.println("Subiendo el servidor Entrada Dinero:");
+            System.out.println("Subiendo el servidor Entrada Dinero puerto:"+ server.getLocalPort());
             while (true) {
                 final Socket accept = server.accept();
                 System.out.println("Cliente: "+ accept.getInetAddress().getHostAddress());
