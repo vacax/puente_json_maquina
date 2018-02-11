@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/puente_json_maquina.iml" filepath="$PROJECT_DIR$/.idea/modules/puente_json_maquina.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/puente_json_maquina_main.iml" filepath="$PROJECT_DIR$/.idea/modules/puente_json_maquina_main.iml" group="puente_json_maquina" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/puente_json_maquina_test.iml" filepath="$PROJECT_DIR$/.idea/modules/puente_json_maquina_test.iml" group="puente_json_maquina" />
+    </modules>
+  </component>
+</project>
