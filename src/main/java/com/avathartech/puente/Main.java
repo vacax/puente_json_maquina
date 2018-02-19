@@ -13,7 +13,7 @@ import java.net.Socket;
 
 public class Main {
 
-    static String host = "http://localhost:8080";
+    static String host = "http://localhost:9089";
     static BigInteger tramaKeepAlive = BigInteger.valueOf(0);
     static BigInteger tramaDinero = BigInteger.valueOf(0);
 
@@ -22,6 +22,9 @@ public class Main {
             host = args[0];
             System.out.println("Cambiando la URL =  "+host);
         }
+
+        System.out.println("Apuntando al servidor: "+host);
+        
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -60,7 +63,7 @@ public class Main {
                         try {
                             BufferedReader br = new BufferedReader(new InputStreamReader(accept.getInputStream()));
                             String linea = br.readLine();
-                            tramaKeepAlive.add(BigInteger.ONE);
+                            tramaKeepAlive = tramaKeepAlive.add(new BigInteger("1"));
                             System.out.println("Trama KeepAlive #"+tramaKeepAlive +", Imprimiendo linea: " + linea);
                             accept.close();
                             enviarTramaKeepServidor(linea, tramaKeepAlive);
@@ -87,8 +90,8 @@ public class Main {
                         try {
                             BufferedReader br = new BufferedReader(new InputStreamReader(accept.getInputStream()));
                             String linea = br.readLine();
-                            tramaDinero.add(BigInteger.ONE);
-                            System.out.println("Trama KeepAlive #"+tramaKeepAlive +", Imprimiendo linea: " + linea);
+                            tramaDinero = tramaDinero.add(new BigInteger("1"));
+                            System.out.println("TramaDinero #"+tramaDinero +", Imprimiendo linea: " + linea);
                             accept.close();
                             enviarTramaDinero(linea, tramaDinero);
                         } catch (Exception e) {
