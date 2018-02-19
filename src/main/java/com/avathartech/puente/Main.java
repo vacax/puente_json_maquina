@@ -7,12 +7,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Main {
 
     static String host = "http://localhost:8080";
+    static BigInteger tramaKeepAlive = BigInteger.valueOf(0);
+    static BigInteger tramaDinero = BigInteger.valueOf(0);
 
     public static void main(String[] args) throws Exception {
         if(args.length >= 1){
@@ -57,9 +60,10 @@ public class Main {
                         try {
                             BufferedReader br = new BufferedReader(new InputStreamReader(accept.getInputStream()));
                             String linea = br.readLine();
-                            System.out.println("Imprimiendo linea: " + linea);
+                            tramaKeepAlive.add(BigInteger.ONE);
+                            System.out.println("Trama KeepAlive #"+tramaKeepAlive +", Imprimiendo linea: " + linea);
                             accept.close();
-                            enviarTramaKeepServidor(linea);
+                            enviarTramaKeepServidor(linea, tramaKeepAlive);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -83,9 +87,10 @@ public class Main {
                         try {
                             BufferedReader br = new BufferedReader(new InputStreamReader(accept.getInputStream()));
                             String linea = br.readLine();
-                            System.out.println("Imprimiendo linea: " + linea);
+                            tramaDinero.add(BigInteger.ONE);
+                            System.out.println("Trama KeepAlive #"+tramaKeepAlive +", Imprimiendo linea: " + linea);
                             accept.close();
-                            enviarTramaDinero(linea);
+                            enviarTramaDinero(linea, tramaDinero);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -97,23 +102,32 @@ public class Main {
         }
     }
 
-    private static void enviarTramaKeepServidor(String trama) throws Exception{
+    /**
+     * 
+     * @param trama
+     * @param numeroTrama
+     * @throws Exception
+     */
+    private static void enviarTramaKeepServidor(String trama, BigInteger numeroTrama) throws Exception{
         HttpResponse<String> stringHttpResponse = Unirest.post(host+"/api/keepAlive")
                 .body(trama)
                 .asString();
-        System.out.println("Codigo: "+ stringHttpResponse.getStatus());
-        System.out.println("Respuesta: "+ stringHttpResponse.getBody());
+        System.out.println(String.format("Trama: %d, Codigo: %d, Respuesta: %s", numeroTrama ,stringHttpResponse.getStatus(), stringHttpResponse.getStatusText()));
 
 
     }
 
-    private static void enviarTramaDinero(String trama) throws Exception{
+    /**
+     * 
+     * @param trama
+     * @param numeroTrama
+     * @throws Exception
+     */
+    private static void enviarTramaDinero(String trama, BigInteger numeroTrama) throws Exception{
         HttpResponse<String> stringHttpResponse = Unirest.post(host+"/api/entradaSalidaDinero")
                 .body(trama)
                 .asString();
-        System.out.println("Codigo: "+ stringHttpResponse.getStatus());
-        System.out.println("Respuesta: "+ stringHttpResponse.getBody());
-
+        System.out.println(String.format("Trama: %d, Codigo: %d, Respuesta: %s", numeroTrama ,stringHttpResponse.getStatus(), stringHttpResponse.getStatusText()));
 
     }
 
