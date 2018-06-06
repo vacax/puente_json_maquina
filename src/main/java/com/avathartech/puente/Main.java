@@ -16,6 +16,7 @@ public class Main {
     static String host = "http://localhost:9089";
     static BigInteger tramaKeepAlive = BigInteger.valueOf(0);
     static BigInteger tramaDinero = BigInteger.valueOf(0);
+    static BigInteger tramaEvento = BigInteger.valueOf(0);
 
     public static void main(String[] args) throws Exception {
         if(args.length >= 1){
@@ -41,6 +42,17 @@ public class Main {
             public void run() {
                 try {
                     servidorEntradaDinero();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    servidorEvento();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -107,6 +119,37 @@ public class Main {
 
     /**
      * 
+     * @throws Exception
+     */
+    private static void  servidorEvento() throws Exception {
+        try (ServerSocket server = new ServerSocket(9902)) {
+            System.out.println("Subiendo el servidor Eventos Maquina:"+ server.getLocalPort());
+            while (true) {
+                final Socket accept = server.accept();
+                System.out.println("Cliente: "+ accept.getInetAddress().getHostAddress());
+                Thread hilo = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            BufferedReader br = new BufferedReader(new InputStreamReader(accept.getInputStream()));
+                            String linea = br.readLine();
+                            tramaEvento = tramaEvento.add(new BigInteger("1"));
+                            System.out.println("TramaEvento #"+tramaDinero +", Imprimiendo linea: " + linea);
+                            accept.close();
+                            enviarTramaEvento(linea, tramaDinero);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+                hilo.start();
+            }
+        }
+    }
+
+    /**
+     * 
      * @param trama
      * @param numeroTrama
      * @throws Exception
@@ -131,6 +174,20 @@ public class Main {
                 .body(trama)
                 .asString();
         System.out.println(String.format("Trama: %d, Codigo: %d, Respuesta: %s", numeroTrama ,stringHttpResponse.getStatus(), stringHttpResponse.getStatusText()));
+
+    }
+
+    /**
+     * 
+     * @param trama
+     * @param numeroTrama
+     * @throws Exception
+     */
+    private static void enviarTramaEvento(String trama, BigInteger numeroTrama) throws Exception{
+        /*HttpResponse<String> stringHttpResponse = Unirest.post(host+"/api/evento")
+                .body(trama)
+                .asString();
+        System.out.println(String.format("Trama: %d, Codigo: %d, Respuesta: %s", numeroTrama ,stringHttpResponse.getStatus(), stringHttpResponse.getStatusText()));*/
 
     }
 
