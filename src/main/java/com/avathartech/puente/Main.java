@@ -134,9 +134,9 @@ public class Main {
                             BufferedReader br = new BufferedReader(new InputStreamReader(accept.getInputStream()));
                             String linea = br.readLine();
                             tramaEvento = tramaEvento.add(new BigInteger("1"));
-                            System.out.println("TramaEvento #"+tramaDinero +", Imprimiendo linea: " + linea);
+                            System.out.println("TramaEvento #"+tramaEvento +", Imprimiendo linea: " + linea);
                             accept.close();
-                            enviarTramaEvento(linea, tramaDinero);
+                            enviarTramaEvento(linea, tramaEvento);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
