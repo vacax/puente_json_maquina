@@ -156,6 +156,7 @@ public class Main {
      */
     private static void enviarTramaKeepServidor(String trama, BigInteger numeroTrama) throws Exception{
         HttpResponse<String> stringHttpResponse = Unirest.post(host+"/api/keepAlive")
+                .header("Content-Type", "application/json")
                 .body(trama)
                 .asString();
         System.out.println(String.format("Trama: %d, Codigo: %d, Respuesta: %s", numeroTrama ,stringHttpResponse.getStatus(), stringHttpResponse.getStatusText()));
@@ -171,6 +172,7 @@ public class Main {
      */
     private static void enviarTramaDinero(String trama, BigInteger numeroTrama) throws Exception{
         HttpResponse<String> stringHttpResponse = Unirest.post(host+"/api/entradaSalidaDinero")
+                .header("Content-Type", "application/json")
                 .body(trama)
                 .asString();
         System.out.println(String.format("Trama: %d, Codigo: %d, Respuesta: %s", numeroTrama ,stringHttpResponse.getStatus(), stringHttpResponse.getStatusText()));
